@@ -1,7 +1,9 @@
 <launch>
+   <arg name="topic_modifier" default="" />
+   <arg name="port" default="/dev/ttyUSB0" />
    <node pkg="swiftnav_ros" type="swiftnav_ros_node" name="swiftnav_ros_node" output="screen">
-     <param name="port" value="/dev/ttyUSB0" />
-     <param name="topic_modifier" value="/left" />
+     <param name="port" value="$(arg port)" />
+     <param name="topic_modifier" value="$(arg topic_modifier)" />
    </node>
    
    <node pkg="diagnostic_aggregator" type="aggregator_node" name="diagnostic_aggregator" >
