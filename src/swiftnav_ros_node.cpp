@@ -64,9 +64,11 @@ int main( int argc, char *argv[] )
 	ros::NodeHandle nh_priv( "~" );
 
 	std::string port;
+    std::string topic_modifier;
 	nh_priv.param( "port", port, (const std::string)"/dev/ttyUSB0" );
+    nh_priv.param( "topic_modifier", topic_modifier, (const std::string)"" );
 
-	swiftnav_ros::PIKSI piksi( nh, nh_priv, port );
+	swiftnav_ros::PIKSI piksi( nh, nh_priv, port, topic_modifier );
 
 	ROS_DEBUG( "Opening SBP device on %s", port.c_str( ) );
 	if( !piksi.PIKSIOpen( ) )

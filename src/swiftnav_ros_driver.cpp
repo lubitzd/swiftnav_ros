@@ -14,10 +14,12 @@ namespace swiftnav_ros
 {	
 	PIKSI::PIKSI( const ros::NodeHandle &_nh,
 		const ros::NodeHandle &_nh_priv,
-		const std::string _port ) :
+		const std::string _port,
+        const std::string _topic_modifier) :
 		nh( _nh ),
 		nh_priv( _nh_priv ),
 		port( _port ),
+        topic_modifier( _topic_modifier ),
 		frame_id( "gps" ),
 		piksid( -1 ),
 
@@ -113,9 +115,9 @@ namespace swiftnav_ros
 //		sbp_register_callback(&state, SBP_VEL_ECEF, &vel_ecefCallback, (void*) this, &vel_ecef_callback_node);
 		sbp_register_callback(&state, SBP_MSG_VEL_NED, &vel_ned_callback, (void*) this, &vel_ned_callback_node);
 
-		llh_pub = nh.advertise<sensor_msgs::NavSatFix>( "gps/fix", 1 );
-		rtk_pub = nh.advertise<nav_msgs::Odometry>( "gps/rtkfix", 1 );
-		time_pub = nh.advertise<sensor_msgs::TimeReference>( "gps/time", 1 );
+		llh_pub = nh.advertise<sensor_msgs::NavSatFix>( "gps/fix" + topic_modifier, 1 );
+		rtk_pub = nh.advertise<nav_msgs::Odometry>( "gps/rtkfix" + topic_modifier, 1 );
+		time_pub = nh.advertise<sensor_msgs::TimeReference>( "gps/time" + topic_modifier, 1 );
 
 		return true;
 	}
