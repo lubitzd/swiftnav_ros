@@ -216,7 +216,7 @@ namespace swiftnav_ros
       llh_msg->header.frame_id = driver->frame_id;
       llh_msg->header.stamp = ros::Time::now( );
 
-      llh_msg->status.status = 0;
+      llh_msg->status.status = llh.flags;
       llh_msg->status.service = 1;
 
       llh_msg->latitude = llh.lat;
