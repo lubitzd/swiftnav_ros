@@ -229,8 +229,10 @@ namespace swiftnav_ros
       llh_msg->position_covariance[0]  = h_covariance;   // x = 0, 0 
       llh_msg->position_covariance[4]  = h_covariance;   // y = 1, 1 
       llh_msg->position_covariance[8]  = v_covariance;   // z = 2, 2 
-
-      driver->llh_pub.publish( llh_msg );
+      
+      if(llh_msg->status.status == 1) {
+        driver->llh_pub.publish( llh_msg );
+      }
 
           driver->num_llh_satellites = llh.n_sats;
           driver->llh_lat = llh.lat;
