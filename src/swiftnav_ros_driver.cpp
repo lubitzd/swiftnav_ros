@@ -20,7 +20,7 @@ namespace swiftnav_ros
 		nh_priv( _nh_priv ),
 		port( _port ),
         topic_modifier( _topic_modifier ),
-		frame_id( "gps" ),
+		frame_id( "wgs84" ),
 		piksid( -1 ),
 
         heartbeat_diag(nh, nh_priv, "ppiksi_time_diag"),
@@ -76,7 +76,7 @@ namespace swiftnav_ros
 		rtk_diag.add( "Piksi Status", this, &PIKSI::DiagCB );
 		rtk_diag.add( rtk_pub_freq );
 
-		nh_priv.param( "frame_id", frame_id, (std::string)"gps" );
+		nh_priv.param( "frame_id", frame_id, frame_id );
 	}
 
 	PIKSI::~PIKSI( )
@@ -216,7 +216,7 @@ namespace swiftnav_ros
       llh_msg->header.frame_id = driver->frame_id;
       llh_msg->header.stamp = ros::Time::now( );
 
-      llh_msg->status.status = llh.flags;
+      llh_msg->status.status = llh.flags & 0x7;
       llh_msg->status.service = 1;
 
       llh_msg->latitude = llh.lat;
@@ -230,9 +230,9 @@ namespace swiftnav_ros
       llh_msg->position_covariance[4]  = h_covariance;   // y = 1, 1 
       llh_msg->position_covariance[8]  = v_covariance;   // z = 2, 2 
       
-      if(llh_msg->status.status == 1) {
+      //if(llh_msg->status.status == 4) {
         driver->llh_pub.publish( llh_msg );
-      }
+      //}
 
           driver->num_llh_satellites = llh.n_sats;
           driver->llh_lat = llh.lat;
